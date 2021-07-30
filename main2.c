@@ -28,22 +28,47 @@ Etudiant inscription(int N)
   Etudiant etudiant[N];
   int i = 0;
   printf("\nINSCRIPTION\n\n");
-  while (i < N)
-  {
+  // while (i < N)
+  // {
     printf("Renseigner les information de l'étudiant n°%d: \n\n", i+1);
     printf("Nom: ");
     scanf("%s", etudiant[i].nom);
     printf("Prénom(s): ");
     scanf("%s", etudiant[i].prenom);
-    printf("Age: ");
-    scanf("%d", &etudiant[i].age);
-    printf("Matricule: ");
-    scanf("%d", &etudiant[i].matricule);
-    printf("Moyenne générale: ");
-    scanf("%f", &etudiant[i].moyenne_generale);
+
+    do
+    {
+      printf("Age: ");
+      scanf("%d", &etudiant[i].age);
+      if (etudiant[i].age < 0)
+      {
+        printf("\n\tVeuillez saisir un âge valide !\n\n");
+      }
+    } while (etudiant[i].age < 0);
+
+    do
+    {
+      printf("Matricule: ");
+      scanf("%d", &etudiant[i].matricule);
+      if (etudiant[i].matricule < 0)
+      {
+        printf("\n\tVeuillez saisir un matricule valide !\n\n");
+      }
+    } while (etudiant[i].matricule < 0);
+
+    do
+    {
+      printf("Moyenne générale: ");
+      scanf("%f", &etudiant[i].moyenne_generale);
+      if (etudiant[i].moyenne_generale < 0 || etudiant[i].moyenne_generale > 20)
+      {
+        printf("\n\tVeuillez saisir une moyenne sur 20 !\n\n");
+      }
+    } while (etudiant[i].moyenne_generale < 0 || etudiant[i].moyenne_generale > 20);
+
     i++;
     printf("\n");
-  }
+  // }
   return *etudiant;
 }
 
@@ -109,6 +134,7 @@ void decisionJury(Etudiant etudiant[])
     {
       printf("\nL'étudiant %s %s est renvoyé.", etudiant[i].nom, etudiant[i].prenom);
     }
+    printf("\n");
     i++;
   }
 }
@@ -117,15 +143,6 @@ int main(int argc, char const *argv[])
 {
   int choix, N, i;
   Etudiant etudiant[taille];
-
-  // etudiant[0].age = 21;
-  // etudiant[0].moyenne_generale = 5;
-  // etudiant[1].age = 20;
-  // etudiant[1].moyenne_generale = 12;
-  // etudiant[2].age = 19;
-  // etudiant[2].moyenne_generale = 15;
-  // etudiant[3].age = 18;
-  // etudiant[3].moyenne_generale = 20;
 
   while (1)
   {
@@ -141,7 +158,12 @@ int main(int argc, char const *argv[])
     case 1:
       printf("\nNombre d'étudiants à inscrire: ");
       scanf("%d",&N);
-      etudiant[tailleTableau(etudiant)] = inscription(N);
+      i = 0;
+      while (i < N)
+      {
+        etudiant[tailleTableau(etudiant)] = inscription(N);
+        i++;
+      }
       break;
     case 2:
       classement(etudiant);
