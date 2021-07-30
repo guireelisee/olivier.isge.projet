@@ -125,9 +125,8 @@ void enregistrer_stock()
 
 }
 
-void tri_prix()
+void rechercher_par_prix(float prix)
 {
-  float prix = 0;
   int i, compteur = 0;
   for (i = 0; i < 100; i++)
   {
@@ -136,20 +135,97 @@ void tri_prix()
       compteur++;
     }
   }
-  for ( i = 0; i < compteur; i++)
-  {
-    if (stock[i].prix_produit > prix)
-    {
-      prix = stock[i].prix_produit;
-    }
 
+
+}
+
+void tri_prix()
+{
+  float prix_tmp = 0;
+  int i, j, compteur = 0, trouver = 0;
+  produit produit_tmp;
+  for (i = 0; i < 100; i++)
+  {
+    if (stock[i].nombre_produit != 0)
+    {
+      compteur++;
+    }
   }
 
+  // Tri à bulle
+  for (j = 1; j <= compteur; j++)
+  {
+    for (i = 0; i < compteur - 1; i++)
+    {
+      if (stock[i].prix_produit > stock[i + 1].prix_produit)
+      {
+        produit_tmp = stock[i];
+        stock[i] = stock[i + 1];
+        stock[i + 1] = produit_tmp;
+      }
+    }
+  }
+
+  printf("\n");
+  for ( i = 0; i < compteur; i++)
+  {
+    for (j = 0; j < compteur; j++)
+    {
+      if (j == 0)
+      {
+        printf("\nListe des produits qui font %f ", stock[i].prix_produit);
+      }
+      if (stock[j].prix_produit == stock[i].prix_produit)
+      {
+        trouver++;
+      }
+    }
+    if (trouver != 0)
+    {
+      printf("\nNom: %s ", stock[i].nom_produit);
+      printf("\nNombre: %d ", stock[i].nombre_produit);
+      printf("\nCatégorie: ");
+      afficher_categorie(stock[i].categorie_produit);
+      printf("\nPromo: %s", (stock[i].promo_produit == true) ? "Oui" : "Non");
+      printf("\n");
+    }
+  }
 }
 
 int main(int argc, char const *argv[])
 {
   int choix;
+
+  // stock[0].nom_produit[50] = "Produit 1";
+  stock[0].nombre_produit = 1;
+  stock[0].prix_produit = 25.00;
+  stock[0].categorie_produit = ALIMENTAIRE;
+  stock[0].promo_produit = 1;
+
+  // stock[1].nom_produit[50] = "Produit 2";
+  stock[1].nombre_produit = 2;
+  stock[1].prix_produit = 50.00;
+  stock[1].categorie_produit = JEUX;
+  stock[1].promo_produit = 0;
+
+  // stock[2].nom_produit[50] = "Produit 3";
+  stock[2].nombre_produit = 3;
+  stock[2].prix_produit = 100.00;
+  stock[2].categorie_produit = ACCESSOIRES;
+  stock[2].promo_produit = 1;
+
+  // stock[3].nom_produit[50] = "Produit 4";
+  stock[3].nombre_produit = 4;
+  stock[3].prix_produit = 25.00;
+  stock[3].categorie_produit = ACCESSOIRES;
+  stock[3].promo_produit = 1;
+
+  // stock[4].nom_produit[50] = "Produit 4";
+  stock[4].nombre_produit = 5;
+  stock[4].prix_produit = 50.00;
+  stock[4].categorie_produit = ACCESSOIRES;
+  stock[4].promo_produit = 0;
+
   while (1)
   {
     printf("\nMENU PRINCIPAL\n");
