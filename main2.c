@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<string.h>
 
+#define taille 100
+
 // Type enregistrement
 typedef struct Etudiant
 {
@@ -25,7 +27,7 @@ Etudiant inscription(int N)
 {
   Etudiant etudiant[N];
   int i = 0;
-  printf("\nINSCRIPTION D'UN ETUDIANT\n\n");
+  printf("\nINSCRIPTION\n\n");
   while (i < N)
   {
     printf("Renseigner les information de l'étudiant n°%d: \n\n", i+1);
@@ -42,7 +44,7 @@ Etudiant inscription(int N)
     i++;
     printf("\n");
   }
-  return etudiant[N];
+  return *etudiant;
 }
 
 void classement(Etudiant etudiant[])
@@ -63,21 +65,23 @@ void classement(Etudiant etudiant[])
     }
   }
   i = 0;
+  printf("\nCLASSEMENT\n");
   while (i < tailleTableau(etudiant))
   {
     printf("\nRang: %d\nNom: %s\nPrénom(s): %s\nAge: %d\nMatricule: %d\nMoyenne: %f", i+1,etudiant[i].nom, etudiant[i].prenom, etudiant[i].age, etudiant[i].matricule, etudiant[i].moyenne_generale);
     printf("\n");
     i++;
   }
-
 }
 
 void decisionJury(Etudiant etudiant[])
 {
   int i = 0;
+  printf("\nDECISION DU JURY\n");
+
   while (i < tailleTableau(etudiant))
   {
-    if (etudiant[i].moyenne_generale >= 12)
+    if (etudiant[i].moyenne_generale >= 12 && etudiant[i].moyenne_generale <= 20)
     {
       switch ((int)etudiant[i].moyenne_generale)
       {
@@ -111,17 +115,17 @@ void decisionJury(Etudiant etudiant[])
 
 int main(int argc, char const *argv[])
 {
-  int choix, N;
-  Etudiant etudiant[100];
+  int choix, N, i;
+  Etudiant etudiant[taille];
 
-  etudiant[0].age = 21;
-  etudiant[0].moyenne_generale = 5;
-  etudiant[1].age = 20;
-  etudiant[1].moyenne_generale = 12;
-  etudiant[2].age = 19;
-  etudiant[2].moyenne_generale = 15;
-  etudiant[3].age = 18;
-  etudiant[3].moyenne_generale = 20;
+  // etudiant[0].age = 21;
+  // etudiant[0].moyenne_generale = 5;
+  // etudiant[1].age = 20;
+  // etudiant[1].moyenne_generale = 12;
+  // etudiant[2].age = 19;
+  // etudiant[2].moyenne_generale = 15;
+  // etudiant[3].age = 18;
+  // etudiant[3].moyenne_generale = 20;
 
   while (1)
   {
@@ -137,7 +141,7 @@ int main(int argc, char const *argv[])
     case 1:
       printf("\nNombre d'étudiants à inscrire: ");
       scanf("%d",&N);
-      etudiant[100] = inscription(N);
+      etudiant[tailleTableau(etudiant)] = inscription(N);
       break;
     case 2:
       classement(etudiant);
