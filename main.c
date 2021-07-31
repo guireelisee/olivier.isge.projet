@@ -1,10 +1,18 @@
-#include<stdio.h>
-#include<stdbool.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
-enum categorie {ALIMENTAIRE, MENAGE, ACCESSOIRES, JEUX}; // Enumération des catégories de produit
+enum categorie
+{
+  ALIMENTAIRE,
+  MENAGE,
+  ACCESSOIRES,
+  JEUX
+}; // Enumération des catégories de produit
 
+int tmp;
+int total;
 // Type enregistrement
 typedef struct produit
 {
@@ -13,7 +21,7 @@ typedef struct produit
   int nombre_produit;
   bool promo_produit;
   enum categorie categorie_produit;
-}produit;
+} produit;
 
 produit stock[100];
 
@@ -63,17 +71,18 @@ enum categorie affecter_categorie(int choix)
 
 void enregistrer_stock()
 {
+  
   produit p;
   char choix_promo[3], choix_encore[3];
   enum categorie c;
   int choix_categorie, i;
   printf("\nENREGISTREMENT STOCK\n\n");
   printf("Nom du produit: ");
-  scanf("%s",p.nom_produit);
+  scanf("%s", p.nom_produit);
   printf("Prix du produit: ");
-  scanf("%f",&p.prix_produit);
+  scanf("%f", &p.prix_produit);
   printf("Nombre du produit: ");
-  scanf("%d",&p.nombre_produit);
+  scanf("%d", &p.nombre_produit);
   printf("Catégories des produit ");
 
   // Lister toutes les catégories disponibles et faire un choix
@@ -83,12 +92,12 @@ void enregistrer_stock()
     afficher_categorie(c);
   }
   printf("\n\tFaites votre choix: ");
-  scanf("%d",&choix_categorie);
+  scanf("%d", &choix_categorie);
   p.categorie_produit = affecter_categorie(choix_categorie);
 
   do
   {
-    printf("Ce produit est-il en promo ? [(O)ui / (N)on]: ");
+    printf("\nCe produit est-il en promo ? [(O)ui / (N)on]: ");
     scanf("%s", choix_promo);
     if (strcasecmp(choix_promo, "O") != 0 && strcasecmp(choix_promo, "N") != 0)
     {
@@ -122,110 +131,102 @@ void enregistrer_stock()
       enregistrer_stock();
     }
   } while (strcasecmp(choix_encore, "O") != 0 && strcasecmp(choix_encore, "N") != 0);
-
 }
-
-void rechercher_par_prix(float prix)
+void tri_categorie(int j)
 {
-  int i, compteur = 0;
-  for (i = 0; i < 100; i++)
+    printf("\n\t ******** { AFFICHAGE SELON LA CATEGORIE } ********\t\n");
+
+  printf("\n*********************** CATEGORIE : AIMENTAIRE ***********************\n");
+  for (int i = 0; i < j-1; i++)
   {
-    if (stock[i].nombre_produit != 0)
+
+    if (stock[i].categorie_produit == ALIMENTAIRE)
     {
-      compteur++;
+      printf("\nNom du produit: %s\n", stock[i].nom_produit);
+      printf("\nPrix du produit: %f\n", stock[i].prix_produit);
+      printf("\nStock: %d\n", stock[i].nombre_produit);
+      printf(stock[i].promo_produit == false ? "\nCe Article n'est pas en promo" : "\nCe article est en Promo\n");
+      printf("\n***********\n");
     }
   }
-
-
-}
-
-void tri_prix()
-{
-  float prix_tmp = 0;
-  int i, j, compteur = 0, trouver = 0;
-  produit produit_tmp;
-  for (i = 0; i < 100; i++)
+  printf("\n");
+  printf("\n*********************** CATEGORIE : MENAGE *************************\n");
+  for (int i = 0; i < j - 1; i++)
   {
-    if (stock[i].nombre_produit != 0)
+
+    if (stock[i].categorie_produit == MENAGE)
     {
-      compteur++;
+      printf("\nNom du produit: %s\n", stock[i].nom_produit);
+      printf("\nPrix du produit: %f\n", stock[i].prix_produit);
+      printf("\nStock: %d\n", stock[i].nombre_produit);
+      printf(stock[i].promo_produit == false ? "\nCe Article n'est pas en promo" : "\nCe article est en Promo\n");
+      printf("\n***********\n");
     }
   }
+  printf("\n");
+  printf("\n********************** CATEGORIE : ACCESSOIRES ******************\n");
 
-  // Tri à bulle
-  for (j = 1; j <= compteur; j++)
+  for (int i = 0; i < j - 1; i++)
   {
-    for (i = 0; i < compteur - 1; i++)
+
+    if (stock[i].categorie_produit == ACCESSOIRES)
+    {
+      printf("\nNom du produit: %s\n", stock[i].nom_produit);
+      printf("Prix du produit: %f\n", stock[i].prix_produit);
+      printf("Stock: %d\n", stock[i].nombre_produit);
+      printf(stock[i].promo_produit == false ? "\nCe Article n'est pas en promo" : "\nCe article est en Promo\n");
+      printf("\n***********\n");
+    }
+  }
+  printf("\n");
+  printf("\n********************** CATEGORIE : JEUX ****************\n");
+  for (int i = 0; i < j - 1; i++)
+  {
+
+    if (stock[i].categorie_produit == JEUX)
+    {
+      printf("\nNom du produit: %s\n", stock[i].nom_produit);
+      printf("Prix du produit: %f\n", stock[i].prix_produit);
+      printf("Stock: %d\n", stock[i].nombre_produit);
+      printf(stock[i].promo_produit == false ? "\nCe Article n'est pas en promo" : "\nCe article est en Promo\n");
+      printf("\n***********\n");
+    }
+  }
+}
+
+void tri_selonPrix(int k)
+{
+  printf("\n\t ******** { AFFICHAGE SELON LE PRIX } ********\t\n");
+  produit product;
+  int i;
+  bool order = false;
+  while (!order)
+  {
+    order = true;
+    for (int i = 0; i < k-1; i++)
     {
       if (stock[i].prix_produit > stock[i + 1].prix_produit)
       {
-        produit_tmp = stock[i];
-        stock[i] = stock[i + 1];
-        stock[i + 1] = produit_tmp;
+        tmp = stock[i].prix_produit;
+        stock[i].prix_produit = stock[i + 1].prix_produit;
+        stock[i + 1].prix_produit = tmp;
+        order = false;
       }
     }
+    
   }
-
-  printf("\n");
-  for ( i = 0; i < compteur; i++)
+  for (int i = 0; i < k - 1; i++)
   {
-    for (j = 0; j < compteur; j++)
-    {
-      if (j == 0)
-      {
-        printf("\nListe des produits qui font %f ", stock[i].prix_produit);
-      }
-      if (stock[j].prix_produit == stock[i].prix_produit)
-      {
-        trouver++;
-      }
-    }
-    if (trouver != 0)
-    {
-      printf("\nNom: %s ", stock[i].nom_produit);
-      printf("\nNombre: %d ", stock[i].nombre_produit);
-      printf("\nCatégorie: ");
-      afficher_categorie(stock[i].categorie_produit);
-      printf("\nPromo: %s", (stock[i].promo_produit == true) ? "Oui" : "Non");
-      printf("\n");
-    }
+    printf("\nNom du produit: %s\n", stock[i].nom_produit);
+    printf("\nPrix du produit: %f\n", stock[i].prix_produit);
+    printf("\nStock: %d\n", stock[i].nombre_produit);
+    printf(stock[i].promo_produit == false ? "Ce promo n'est pas en promo" : "Ce article est en Promo\n");
+    printf("\n******************************************\n");
   }
 }
-
 int main(int argc, char const *argv[])
 {
   int choix;
-
-  // stock[0].nom_produit[50] = "Produit 1";
-  stock[0].nombre_produit = 1;
-  stock[0].prix_produit = 25.00;
-  stock[0].categorie_produit = ALIMENTAIRE;
-  stock[0].promo_produit = 1;
-
-  // stock[1].nom_produit[50] = "Produit 2";
-  stock[1].nombre_produit = 2;
-  stock[1].prix_produit = 50.00;
-  stock[1].categorie_produit = JEUX;
-  stock[1].promo_produit = 0;
-
-  // stock[2].nom_produit[50] = "Produit 3";
-  stock[2].nombre_produit = 3;
-  stock[2].prix_produit = 100.00;
-  stock[2].categorie_produit = ACCESSOIRES;
-  stock[2].promo_produit = 1;
-
-  // stock[3].nom_produit[50] = "Produit 4";
-  stock[3].nombre_produit = 4;
-  stock[3].prix_produit = 25.00;
-  stock[3].categorie_produit = ACCESSOIRES;
-  stock[3].promo_produit = 1;
-
-  // stock[4].nom_produit[50] = "Produit 4";
-  stock[4].nombre_produit = 5;
-  stock[4].prix_produit = 50.00;
-  stock[4].categorie_produit = ACCESSOIRES;
-  stock[4].promo_produit = 0;
-
   while (1)
   {
     printf("\nMENU PRINCIPAL\n");
@@ -234,26 +235,32 @@ int main(int argc, char const *argv[])
     printf("\n3 - Trier en fonction de la catégorie");
     printf("\n4 - Quitter");
     printf("\n\nChoix: ");
-    scanf("%d",&choix);
+    scanf("%d", &choix);
     switch (choix)
     {
     case 1:
+      printf("\n Total des produits á ajouter : ");
+      scanf("%d", &total);
       enregistrer_stock();
       break;
     case 2:
-      tri_prix();
+      tri_selonPrix(total);
+      system("echo Appuyer sur ENTRER pour continuer . . . && ( read x 2> nul; rm nul || pause > nul )");
       break;
     case 3:
+
+
+      tri_categorie(total);
+      system("echo Appuyer sur ENTRER pour continuer . . . && ( read x 2> nul; rm nul || pause > nul )");
       break;
     case 4:
       exit(EXIT_SUCCESS);
       break;
     default:
-    printf("ok");
+      printf("ok");
       break;
     }
-  };
+  }
 
   return 0;
 }
-
